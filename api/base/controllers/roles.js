@@ -16,6 +16,9 @@ module.exports = simpleDI.inject(['mongoose', 'base/roleModel', 'jsonwebtoken', 
       create: function (req, res, next) {
           var newRole = new Role();
           newRole.roleName = req.body.roleName;
+          for (var i = 0, len = req.body.resources.length; i < len; i++) {
+             newRole.resources.push(ObjectId(req.body.resources[i].id));
+          }
           newRole.save(function(err) {
             if (err) {
               return res.json(400, { message: err });
@@ -45,11 +48,11 @@ module.exports = simpleDI.inject(['mongoose', 'base/roleModel', 'jsonwebtoken', 
       getById: function (req, res, next) {
          var roleId = req.params.roleId;
         
-          Role.findById(ObjectId(roleId)).exec(function (err, role) {
+          Role.findById(ObjectId(roleId)).populate('resources').exec(function (err, role) {
             if (err) { return next(err); }
             
             if (role) {
-              res.json({_id: roleId, roleName: role.roleName });
+              res.json(role);
             } else {
               res.json(404, { message: 'Role not found' });
             }

@@ -11,7 +11,8 @@ module.exports = simpleDI.inject(['mongoose'], function(mongoose) {
       type: String,
       unique: true,
       required: true
-    }
+    },
+    resources: [ { type: Schema.ObjectId, ref: 'resource' } ]
   });
 
   return mongoose.model('role', RoleSchema);

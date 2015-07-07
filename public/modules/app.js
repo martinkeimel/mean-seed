@@ -8,7 +8,8 @@ angular.module('mean', [
   'ngRoute',
   'ui.bootstrap',
   'autofill-directive',
-  'ngTable'
+  'ngTable',
+  'angularjs-dropdown-multiselect'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     
